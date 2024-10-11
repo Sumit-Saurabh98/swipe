@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+import { disconnectSocket, initializeSocket } from "../socket/socket.client";
 
 // Define the structure of your auth user
 export interface AuthUser {
@@ -44,6 +45,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       set({ loading: true });
       const res = await axiosInstance.post<{ user: AuthUser }>("/auth/signup", { name, email, password, age, gender, genderPreference });
       set({ authUser: res.data.user, loading: false });
+      initializeSocket(res.data.user._id);
       toast.success("Account created successfully");
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
@@ -62,6 +64,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       set({ loading: true });
       const res = await axiosInstance.post<{ user: AuthUser }>("/auth/login", { email, password });
       set({ authUser: res.data.user, loading: false });
+      initializeSocket(res.data.user._id);
       toast.success("Logged in successfully");
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
@@ -78,6 +81,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   logout: async () =>{
     try {
         const res = await axiosInstance.post<{ user: AuthUser }>("/auth/logout");
+        disconnectSocket();
         if(res.status === 200){
             set({ authUser: null, checkingAuth: false });
             toast.success("Logged out successfully");
@@ -96,6 +100,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/me");
+      initializeSocket(res.data.user._id);
       set({ authUser: res.data.user, checkingAuth: false });
     } catch (error) {
       if (error instanceof AxiosError) {
