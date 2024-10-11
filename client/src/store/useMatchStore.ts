@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { ErrorResponse } from "./useAuthStore";
 import { AuthUser } from "./useAuthStore";
+import { getSocket } from "../socket/socket.client";
 
 export interface Match {
   _id: string;
@@ -21,6 +22,8 @@ export interface MatchStore {
   getUserProfiles: () => Promise<void>;
   swipeLeft: (user: AuthUser) => Promise<void>;
   swipeRight: (user: AuthUser) => Promise<void>;
+  subscribeToNewMatches: () => void;
+  unsubscribeFromNewMatches: () => void;
 }
 
 export const useMatchStore = create<MatchStore>((set) => ({
@@ -109,6 +112,29 @@ export const useMatchStore = create<MatchStore>((set) => ({
       setTimeout(() => {
         set({swipeFeedback: null})
       }, 1500);
+    }
+  },
+
+  subscribeToNewMatches: () => {
+    try {
+      const socket = getSocket();
+      socket.on("newMatch", (newMatch) =>{
+        set(state => ({
+          matches: [...state.matches, newMatch]
+        }))
+        toast.success("You got anew match!")
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  unsubscribeFromNewMatches: () => {
+    try {
+      const socket = getSocket();
+      socket.off("newMatch");
+    } catch (error) {
+      console.log(error);
     }
   },
 }));

@@ -1,6 +1,7 @@
 import { Response } from "express";
 import User from "../models/User.js";
 import { CustomRequest } from "../middleware/auth.js";
+import { getConnectedUsers, getIO } from "../socket/socket.server.js";
 
 export const swipeRight = async (req: CustomRequest, res: Response) => {
   try {
@@ -25,7 +26,26 @@ export const swipeRight = async (req: CustomRequest, res: Response) => {
         likedUser?.matches.push(currentUser?._id as any);
         await Promise.all([await currentUser?.save(), await likedUser?.save()]);
 
-        // TODO: send notification to liked user
+        // send notification in real time with socket.io
+        const connectedUsers = getConnectedUsers()
+        const io = getIO();
+        const likedUserSocketId = connectedUsers.get(likedUserId);
+        if (likedUserSocketId) {
+            io.to(likedUserSocketId).emit("newMatch", {
+                _id: currentUser?._id,
+                name: currentUser?.name,
+                image: currentUser?.image,
+            });
+        }
+
+        const currentSocketId = connectedUsers.get(currentUser?._id.toString());
+        if (currentSocketId) {
+            io.to(currentSocketId).emit("newMatch", {
+                _id: likedUser?._id,
+                name: likedUser?.name,
+                image: likedUser?.image,
+            });
+        }
       }
 
       res.status(200).json({
