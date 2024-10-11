@@ -5,7 +5,7 @@ import { AxiosError } from "axios";
 
 // Define the structure of your auth user
 export interface AuthUser {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   age: number;
