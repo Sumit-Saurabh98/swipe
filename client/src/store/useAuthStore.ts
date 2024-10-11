@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 
 // Define the structure of your auth user
-interface AuthUser {
+export interface AuthUser {
   id: string;
   name: string;
   email: string;
@@ -30,7 +30,7 @@ interface AuthStore {
   checkAuth: () => Promise<void>;
 }
 
-interface ErrorResponse {
+export interface ErrorResponse {
   message: string;
 }
 

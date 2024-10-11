@@ -11,7 +11,7 @@ export const updateProfile = async (req: CustomRequest, res: Response) => {
 
     if (image) {
       // base64 format
-      if (!image.startsWith("data:image")) {
+      if (image.startsWith("data:image")) {
         try {
             const uploadedResponse = await cloudinary.uploader.upload(image);
             updatedData = { ...otherData, image: uploadedResponse.secure_url };
