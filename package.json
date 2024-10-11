@@ -9,7 +9,8 @@
     "server": "nodemon ./dist/index.js",
     "dev": "concurrently \"npm run watch\" \"npm run server\"",
     "build": "tsc",
-    "watch": "tsc -w"
+    "watch": "tsc -w",
+    "seeds" : "node ./dist/seeds/user.js"
   },
   "keywords": [],
   "author": "Author",

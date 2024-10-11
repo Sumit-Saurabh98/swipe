@@ -34,7 +34,7 @@ const SignUpForm = () => {
 						required
 						value={name}
 						onChange={(e) => setName(e.target.value)}
-						className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm'
+						className='appearance-none block bg-white text-black w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm'
 					/>
 				</div>
 			</div>
@@ -53,7 +53,7 @@ const SignUpForm = () => {
 						required
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
-						className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm'
+						className='appearance-none block bg-white text-black w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm'
 					/>
 				</div>
 			</div>
@@ -72,7 +72,7 @@ const SignUpForm = () => {
 						required
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
-						className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm'
+						className='appearance-none block bg-white text-black w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm'
 					/>
 				</div>
 			</div>
@@ -92,7 +92,7 @@ const SignUpForm = () => {
 						onChange={(e) => setAge(e.target.value)}
 						min='18'
 						max='120'
-						className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm'
+						className='appearance-none block bg-white text-black w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm'
 					/>
 				</div>
 			</div>
@@ -108,7 +108,7 @@ const SignUpForm = () => {
 							type='checkbox'
 							checked={gender === "male"}
 							onChange={() => setGender("male")}
-							className='h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300 rounded'
+							className='h-4 w-4 bg-white text-pink-600 focus:ring-pink-500 border-gray-300 rounded'
 						/>
 						<label htmlFor='male' className='ml-2 block text-sm text-gray-900'>
 							Male
@@ -172,7 +172,7 @@ const SignUpForm = () => {
 							onChange={(e) => setGenderPreference(e.target.value)}
 							className='h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300'
 						/>
-						<label htmlFor='prefer-both' className='ml-2 block text-sm text-gray-900'>
+						<label htmlFor='prefer-both' className='ml-2 block text-sm bg-white text-gray-900'>
 							Both
 						</label>
 					</div>
