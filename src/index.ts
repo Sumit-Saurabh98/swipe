@@ -30,18 +30,10 @@ app.use(cors({
     credentials: true
 }));
 
-app.get("/", (req:Request, res:Response) => {
-    res.status(200).json({ message: "Server is running" });
-});
-
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/matches', matchRoutes);
 app.use('/api/messages', messageRoutes);
-
-app.get("*", (req:Request, res:Response) => {
-    res.status(404).json({ message: "Not found" });
-});
 
 if(process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "/client/dist")));
