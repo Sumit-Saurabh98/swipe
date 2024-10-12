@@ -1,3 +1,4 @@
+import path from "path";
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 dotenv.config();
@@ -14,6 +15,8 @@ import { initializeSocket } from "./socket/socket.server.js";
 const app = express();
 const httpServer = createServer(app);
 const PORT = process.env.PORT || 5002;
+
+const __dirname = path.resolve();
 
 initializeSocket(httpServer);
 
@@ -39,6 +42,13 @@ app.use('/api/messages', messageRoutes);
 app.get("*", (req:Request, res:Response) => {
     res.status(404).json({ message: "Not found" });
 });
+
+if(process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "/client/dist")));
+    app.get("*", (req:Request, res:Response) => {
+        res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
+    });
+}
 
 httpServer.listen(PORT, () => {
     connectDB();
