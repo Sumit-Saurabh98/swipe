@@ -18,7 +18,6 @@ updateProfile: async (name: string, age: number, bio: string, gender: string, ge
       set({ loading: true });
       const res = await axiosInstance.put<AuthUser>("/users/update-profile", { name, age, bio, gender, genderPreference, image });
       useAuthStore.getState().setAuthUser(res.data.user); 
-      console.log("updating profile check: ",res.data);
       toast.success("Profile updated successfully");
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
