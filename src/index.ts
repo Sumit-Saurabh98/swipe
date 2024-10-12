@@ -36,9 +36,13 @@ app.use('/api/matches', matchRoutes);
 app.use('/api/messages', messageRoutes);
 
 if(process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "/client/dist")));
+    app.use(express.static(path.join(__dirname, "client", "dist")));
     app.get("*", (req:Request, res:Response) => {
         res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
+    });
+}else{
+    app.get("/", (req:Request, res:Response) => {
+        res.send("API is running....");
     });
 }
 
