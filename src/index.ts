@@ -36,10 +36,6 @@ app.use('/api/users', userRoutes);
 app.use('/api/matches', matchRoutes);
 app.use('/api/messages', messageRoutes);
 
-app.get("*", (req:Request, res:Response) => {
-    res.status(404).json({ message: "Not found" });
-});
-
 httpServer.listen(PORT, () => {
     connectDB();
     console.log(`Listening on port ${PORT}`);
