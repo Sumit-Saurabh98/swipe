@@ -1,9 +1,8 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import cloudinary from "../config/cloudinary.js";
 import User from "../models/User.js";
-import { CustomRequest } from "../middleware/auth.js";
 
-export const updateProfile = async (req: CustomRequest, res: Response) => {
+export const updateProfile = async (req: Request, res: Response) => {
   try {
     const { image, ...otherData } = req.body;
 

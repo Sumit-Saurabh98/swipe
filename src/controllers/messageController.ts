@@ -1,10 +1,10 @@
-import { CustomRequest } from "../middleware/auth.js";
+
 import User from "../models/User.js";
 import Message from "../models/Message.js";
-import { Response } from "express";
+import { Request, Response } from "express";
 import { getConnectedUsers, getIO } from "../socket/socket.server.js";
 
-export const sendMessage = async (req: CustomRequest, res: Response) => {
+export const sendMessage = async (req: Request, res: Response) => {
     try {
         const {content, receiverId} = req.body;
 
@@ -33,7 +33,7 @@ export const sendMessage = async (req: CustomRequest, res: Response) => {
     }
 }
 
-export const getConversation = async (req: CustomRequest, res: Response) => {
+export const getConversation = async (req: Request, res: Response) => {
     const {userId} = req.params;
     try {
         const messages = await Message.find({

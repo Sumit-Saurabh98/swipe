@@ -1,9 +1,8 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import User from "../models/User.js";
-import { CustomRequest } from "../middleware/auth.js";
 import { getConnectedUsers, getIO } from "../socket/socket.server.js";
 
-export const swipeRight = async (req: CustomRequest, res: Response) => {
+export const swipeRight = async (req: Request, res: Response) => {
   try {
     const { likedUserId } = req.params;
     const currentUser = await User.findById(req.user._id);
@@ -61,7 +60,7 @@ export const swipeRight = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const swipeLeft = async (req: CustomRequest, res: Response) => {
+export const swipeLeft = async (req: Request, res: Response) => {
   try {
     const { dislikedUserId } = req.params;
 
@@ -83,7 +82,7 @@ export const swipeLeft = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const getMatches = async (req: CustomRequest, res: Response) => {
+export const getMatches = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.user._id).populate(
       "matches",
@@ -96,7 +95,7 @@ export const getMatches = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const getUserProfiles = async (req: CustomRequest, res: Response) => {
+export const getUserProfiles = async (req: Request, res: Response) => {
   try {
     const currentUser = await User.findById(req.user._id);
 
