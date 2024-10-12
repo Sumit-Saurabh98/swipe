@@ -17,6 +17,7 @@ export interface AuthUser {
   likes: string[];
   dislikes: string[];
   matches: string[];
+  user: AuthUser;
   matchPassword?: (enteredPassword: string) => Promise<boolean>;
 }
 
@@ -29,6 +30,7 @@ interface AuthStore {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
+  setAuthUser: (user: AuthUser) => void;
 }
 
 export interface ErrorResponse {
@@ -112,5 +114,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     }finally{
       set({ checkingAuth: false });
     }
-  }
+  },
+
+  setAuthUser: (user: AuthUser) => set({ authUser: user }),
 }));

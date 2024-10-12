@@ -2,6 +2,7 @@ import { CustomRequest } from "../middleware/auth.js";
 import User from "../models/User.js";
 import Message from "../models/Message.js";
 import { Response } from "express";
+import { getConnectedUsers, getIO } from "../socket/socket.server.js";
 
 export const sendMessage = async (req: CustomRequest, res: Response) => {
     try {
@@ -13,7 +14,17 @@ export const sendMessage = async (req: CustomRequest, res: Response) => {
             content
         })
 
-        // TODO: Send the message in real time
+        // Send the message in real time
+
+        const io = getIO();
+
+        const connectedUsers = getConnectedUsers();
+        const receiverSocketId = connectedUsers.get(receiverId);
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit("newMessage", {
+                message: newMessage
+            });
+        }
 
         res.status(201).json({ success: true, message: newMessage });
     } catch (error) {
@@ -27,8 +38,8 @@ export const getConversation = async (req: CustomRequest, res: Response) => {
     try {
         const messages = await Message.find({
             $or: [
-                {sender: req.user._id, receiver: userId},
-                {sender: userId, receiver: req.user._id},
+                {senderId: req.user._id, receiverId: userId},
+                {senderId: userId, receiverId: req.user._id},
             ]
         }).sort({createdAt: 1});
 

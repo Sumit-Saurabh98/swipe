@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
 
 interface IMessage {
-    sender: mongoose.Schema.Types.ObjectId;
-    receiver: mongoose.Schema.Types.ObjectId;
+    senderId: mongoose.Schema.Types.ObjectId;
+    receiverId: mongoose.Schema.Types.ObjectId;
     message: string;
 }
 
 const MessageSchema = new mongoose.Schema({
-    sender:{
+    senderId:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
     },
-    receiver:{
+    receiverId:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true

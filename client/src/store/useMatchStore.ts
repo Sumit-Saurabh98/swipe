@@ -75,42 +75,42 @@ export const useMatchStore = create<MatchStore>((set) => ({
 
   swipeLeft: async (user) => {
     try {
-      set({swipeFeedback: "passed"})
+      set({ swipeFeedback: "passed" });
       await axiosInstance.post("/matches/swipe-left/" + user._id);
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         const errorMessage =
           (error.response.data as ErrorResponse).message ||
           "Error to fetch user profiles";
-          console.log(errorMessage);
+        console.log(errorMessage);
         toast.error("Failed to swipe left");
       } else {
         toast.error("An unexpected error occurred during swipe left");
       }
-    }finally{
+    } finally {
       setTimeout(() => {
-        set({swipeFeedback: null})
+        set({ swipeFeedback: null });
       }, 1500);
     }
   },
 
   swipeRight: async (user) => {
     try {
-      set({swipeFeedback: "liked"})
+      set({ swipeFeedback: "liked" });
       await axiosInstance.post("/matches/swipe-right/" + user._id);
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         const errorMessage =
           (error.response.data as ErrorResponse).message ||
           "Error to fetch user profiles";
-          console.log(errorMessage);
+        console.log(errorMessage);
         toast.error("Failed to swipe right");
       } else {
         toast.error("An unexpected error occurred during swipe right");
       }
-    } finally{
+    } finally {
       setTimeout(() => {
-        set({swipeFeedback: null})
+        set({ swipeFeedback: null });
       }, 1500);
     }
   },
@@ -118,12 +118,12 @@ export const useMatchStore = create<MatchStore>((set) => ({
   subscribeToNewMatches: () => {
     try {
       const socket = getSocket();
-      socket.on("newMatch", (newMatch) =>{
-        set(state => ({
-          matches: [...state.matches, newMatch]
-        }))
-        toast.success("You got anew match!")
-      })
+      socket.on("newMatch", (newMatch) => {
+        set((state) => ({
+          matches: [...state.matches, newMatch],
+        }));
+        toast.success("You got anew match!");
+      });
     } catch (error) {
       console.log(error);
     }
