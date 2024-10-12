@@ -8,7 +8,7 @@
     "start": "node ./dist/index.js",
     "server": "nodemon ./dist/index.js",
     "dev": "concurrently \"npm run watch\" \"npm run server\"",
-    "build": " npm i && npm install --prefix client && tsc && npm run build --prefix client",
+    "build": " npm i && tsc && npm install --prefix client && npm run build --prefix client",
     "watch": "tsc -w",
     "seeds" : "node ./dist/seeds/user.js"
   },

@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
+import path from "path";
 dotenv.config();
 import cors from "cors";
 import {createServer} from "http"
@@ -15,6 +16,8 @@ const app = express();
 const httpServer = createServer(app);
 const PORT = process.env.PORT || 5002;
 
+const __dirname = path.resolve();
+
 initializeSocket(httpServer);
 
 
@@ -27,18 +30,17 @@ app.use(cors({
     credentials: true
 }));
 
-app.get("/", (req:Request, res:Response) => {
-    res.status(200).json({ message: "Server is running" });
-});
-
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/matches', matchRoutes);
 app.use('/api/messages', messageRoutes);
 
-app.get("*", (req:Request, res:Response) => {
-    res.status(404).json({ message: "Not found" });
-});
+if(process.env.NODE_ENV === "production"){
+    app.use(express.static(path.join(__dirname, "/client/build")));
+    app.get("*", (req: Request, res: Response) => {
+        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    })
+}
 
 httpServer.listen(PORT, () => {
     connectDB();
