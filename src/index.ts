@@ -10,10 +10,13 @@ import matchRoutes from "./routes/matchRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import connectDB from "./config/db.js";
 import { initializeSocket } from "./socket/socket.server.js";
+import path from "path";
 
 const app = express();
 const httpServer = createServer(app);
-const PORT = process.env.PORT || 5002;
+const PORT = process.env.PORT || 8083;
+
+const __dirname = path.resolve();
 
 initializeSocket(httpServer);
 
@@ -27,7 +30,7 @@ app.use(cors({
     credentials: true
 }));
 
-app.get("/", (req:Request, res:Response) => {
+app.get("/test", (req:Request, res:Response) => {
     res.status(200).json({ message: "Server is running" });
 });
 
@@ -35,6 +38,13 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/matches', matchRoutes);
 app.use('/api/messages', messageRoutes);
+
+if(process.env.NODE_ENV === "production"){
+    app.use(express.static(path.join(__dirname, "client", "dist")));
+    app.get("*", (req: Request, res: Response) => {
+        res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
+    })
+}
 
 httpServer.listen(PORT, () => {
     connectDB();
